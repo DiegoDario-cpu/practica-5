@@ -39,4 +39,12 @@ public class Carta {
         };
         return nombreValor + " de " + palo;
     }
+
+    public int getValor() {
+        return this.valor;
+    }
+
+    public Palo getPalo() {
+        return this.palo;
+    }
 }

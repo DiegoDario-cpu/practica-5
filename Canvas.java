@@ -44,6 +44,7 @@ public class Canvas
     private Image canvasImage;
     private List<Object> objects;
     private HashMap<Object, ShapeDescription> shapes;
+    private List<TextDescription> texts;
     
     /**
      * Create a Canvas.
@@ -64,6 +65,7 @@ public class Canvas
         frame.pack();
         objects = new ArrayList<Object>();
         shapes = new HashMap<Object, ShapeDescription>();
+        texts = new ArrayList<TextDescription>();
     }
 
     /**
@@ -149,6 +151,15 @@ public class Canvas
     }
 
     /**
+     * Draw a text string directly onto the canvas at given coordinates.
+     */
+    public void drawText(Object referenceObject, String color, String text, int x, int y) {
+        // Store text so it remains visible even al redraw.
+        texts.add(new TextDescription(referenceObject, color, text, x, y));
+        redraw();
+    }
+
+    /**
      * Wait for a specified number of milliseconds before finishing.
      * This provides an easy way to specify a small delay which can be
      * used when producing animations.
@@ -174,6 +185,9 @@ public class Canvas
         erase();
         for(Object shape : objects) {
             shapes.get(shape).draw(graphic);
+        }
+        for(TextDescription text : texts) {
+            text.draw(graphic);
         }
         canvas.repaint();
     }
@@ -227,4 +241,33 @@ public class Canvas
         }
     }
 
+    private class TextDescription
+    {
+        private String color;
+        private String text;
+        private int x;
+        private int y;
+
+        public TextDescription(Object referenceObject, String color, String text, int x, int y)
+        {
+            this.color = color;
+            this.text = text;
+            this.x = x;
+            this.y = y;
+        }
+
+        public void draw(Graphics2D graphic)
+        {
+            setForegroundColor(color);
+            graphic.setFont(new Font("SansSerif", Font.BOLD, 14));
+            graphic.drawString(text, x, y);
+        }
+    }
+
+    public void drawString(String string, int i, int j) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'drawString'");
+    }
 }
+
+
